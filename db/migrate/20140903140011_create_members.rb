@@ -1,5 +1,6 @@
 class CreateMembers < ActiveRecord::Migration
   def change
+
     create_table :members do |t|
       t.string :name
       t.string :email
@@ -7,5 +8,9 @@ class CreateMembers < ActiveRecord::Migration
 
       t.timestamps
     end
+
+    add_index :members, :name, unique: true
+    add_index :members, :email, unique: true
   end
+
 end

@@ -1,5 +1,6 @@
 class CreateServices < ActiveRecord::Migration
   def change
+
     create_table :services do |t|
       t.string :name
       t.integer :task_left
@@ -11,5 +12,7 @@ class CreateServices < ActiveRecord::Migration
 
       t.timestamps
     end
+
+    add_index :services, :name, unique: true
   end
 end

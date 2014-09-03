@@ -21,6 +21,9 @@ ActiveRecord::Schema.define(version: 20140903145320) do
     t.datetime "updated_at"
   end
 
+  add_index "members", ["email"], name: "index_members_on_email", unique: true
+  add_index "members", ["name"], name: "index_members_on_name", unique: true
+
   create_table "offices", force: true do |t|
     t.datetime "date"
     t.datetime "created_at"
@@ -34,6 +37,8 @@ ActiveRecord::Schema.define(version: 20140903145320) do
     t.datetime "updated_at"
   end
 
+  add_index "service_templates", ["name"], name: "index_service_templates_on_name", unique: true
+
   create_table "services", force: true do |t|
     t.string   "name"
     t.integer  "task_left"
@@ -46,6 +51,8 @@ ActiveRecord::Schema.define(version: 20140903145320) do
     t.datetime "updated_at"
   end
 
+  add_index "services", ["name"], name: "index_services_on_name", unique: true
+
   create_table "services_members", force: true do |t|
     t.integer  "service_id"
     t.integer  "member_id"
@@ -55,7 +62,7 @@ ActiveRecord::Schema.define(version: 20140903145320) do
 
   create_table "task_templates", force: true do |t|
     t.string   "name"
-    t.datetime "due_date"
+    t.string   "due_date"
     t.integer  "service_id"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -63,7 +70,7 @@ ActiveRecord::Schema.define(version: 20140903145320) do
 
   create_table "tasks", force: true do |t|
     t.string   "name"
-    t.datetime "due_date"
+    t.string   "due_date"
     t.boolean  "completed"
     t.integer  "service_id"
     t.datetime "created_at"
