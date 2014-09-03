@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  leader: MyString
+  task_left: 
+  task_done: 
+  task_total: 
+  ready: 
+
+two:
+  name: MyString
+  leader: MyString
+  task_left: 
+  task_done: 
+  task_total: 
+  ready: 
