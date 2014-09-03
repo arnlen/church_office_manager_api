@@ -1,4 +1,7 @@
 class OfficesController < ApplicationController
+
+  before_action :authentication_required, only: [ :update, :destroy ]
+
   def index
   end
 
@@ -13,4 +16,11 @@ class OfficesController < ApplicationController
 
   def destroy
   end
+
+  private
+
+  def office_params
+    params.permit(:date)
+  end
+
 end

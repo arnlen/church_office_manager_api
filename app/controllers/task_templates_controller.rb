@@ -1,4 +1,7 @@
 class TaskTemplatesController < ApplicationController
+
+  before_action :authentication_required
+
   def index
   end
 
@@ -13,4 +16,11 @@ class TaskTemplatesController < ApplicationController
 
   def destroy
   end
+
+  private
+
+  def task_template_params
+    params.permit(:name, :due_date)
+  end
+
 end
