@@ -6,9 +6,12 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
+# ruby encoding: utf-8
 require 'assets/date_time_mixin'
 
-# Members
+# ------------------------------
+# Create member
+
 Member.create([
 	{ name: "Jeff" },
 	{ name: "Mireille" },
@@ -32,7 +35,9 @@ Member.create([
 	{ name: "Alexia" }
 ])
 
-# Service templates
+# ------------------------------
+# Create ServiceTemplates
+
 ServiceTemplate.create([
 	{ name: "Louange", leader_id: Member.where(name: "Jeff").first.id },
 	{ name: "Accueil", leader_id: Member.where(name: "Nico").first.id },
@@ -45,7 +50,9 @@ ServiceTemplate.create([
 	{ name: "Reportage", leader_id: Member.where(name: "Amandine").first.id }
 ])
 
-# Task templates
+# ------------------------------
+# Create TaskTemplates
+
 TaskTemplate.create([
 	{ name: "Créer liste des chants", due_date: "saturday", service_id: ServiceTemplate.where(name: "Louange").first.id },
 	{ name: "Imprimer brochure (programme)", due_date: "sunday", service_id: ServiceTemplate.where(name: "Accueil").first.id },
@@ -58,7 +65,9 @@ TaskTemplate.create([
 	{ name: "Préparer la leçon", due_date: "saturday", service_id: ServiceTemplate.where(name: "Éveil à la foi").first.id },
 ])
 
-# Offices
+# ------------------------------
+# Create Offices
+
 next_sunday = Date.today.extend(DateTimeMixin)
 next_sunday = next_sunday.next_wday(7)
 
@@ -69,30 +78,36 @@ Office.create([
 	{ date: next_sunday.advance({ weeks: 3 }) }
 ])
 
-# Service
-service_template = ServiceTemplate.where(name: "Louange").first
-new_service = Service.create(name: service_template.name, leader_id: service_template.leader_id, office_id: Office.first.id)
+# ------------------------------
+# Create Services and Tasks
 
-# Tasks for this service
-task_templates = TaskTemplate.where(service_id: service_template.id)
-task_templates.each do |task_template|
+Office.all.each do |office|
+	ServiceTemplate.all.each do |service_template|
+		new_service = Service.create(name: service_template.name, leader_id: service_template.leader_id, office_id: office.id)
 
-	# Determine the exact due_date depending of the office's date
-	office_date = new_service.office.date.to_date
-	monday = office_date.beginning_of_week.extend(DateTimeMixin)
+		task_templates = TaskTemplate.where(service_id: service_template.id)
+		task_templates.each do |task_template|
 
-	task_template.due_date = case task_template.due_date
-	when "wednesday"
-		monday.next_wday(3)
-	when "thursday"
-		monday.next_wday(4)
-	when "friday"
-		monday.next_wday(5)
-	when "saturday"
-		monday.next_wday(6)
-	when "sunday"
-		monday.next_wday(7)
+			# Determine the exact due_date depending of the office's date
+			office_date = office.date.to_date
+			monday = office_date.beginning_of_week.extend(DateTimeMixin)
+
+			task_template.due_date = case task_template.due_date
+			when "wednesday"
+				monday.next_wday(3)
+			when "thursday"
+				monday.next_wday(4)
+			when "friday"
+				monday.next_wday(5)
+			when "saturday"
+				monday.next_wday(6)
+			when "sunday"
+				monday.next_wday(7)
+			end
+
+			Task.create(name: task_template.name, due_date: task_template.due_date.to_datetime, service_id: new_service.id)
+
+		end
+
 	end
-
-	Task.create(name: task_template.name, due_date: task_template.due_date.to_datetime, service_id: new_service.id)
 end

@@ -2,6 +2,11 @@ class OfficesController < ApplicationController
 
   before_action :authentication_required, only: [ :update, :destroy ]
 
+  def next_office
+    office = Office.next
+    Service.create_or_reset_office_services(office) unless @office.services.count === ServiceTemplate.count
+  end
+
   def index
   end
 
@@ -19,8 +24,8 @@ class OfficesController < ApplicationController
 
   private
 
-  def office_params
-    params.permit(:date)
-  end
+    def office_params
+      params.permit(:date)
+    end
 
 end
