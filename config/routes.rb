@@ -3,7 +3,7 @@ Rails.application.routes.draw do
   resources :members, only: [ :index, :show, :create, :update, :destroy ]
 
   resources :offices, only: [ :index, :show, :create, :update, :destroy ]
-  get 'offices/next/:amount', to: 'offices#next_office', as: 'next_office'
+  match 'offices/next/:amount', to: 'offices#next_office', as: 'next_office', via: [ :options, :get ]
 
   resources :services, only: [ :index, :show, :create, :update, :destroy ]
 
