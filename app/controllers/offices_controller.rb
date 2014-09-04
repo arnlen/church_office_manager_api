@@ -4,7 +4,7 @@ class OfficesController < ApplicationController
 
   def next_office
     amount = params[:amount] || 1
-    office = Office.next(amount)
+    @offices = Office.next(amount)
   end
 
   def index

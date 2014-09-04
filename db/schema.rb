@@ -51,10 +51,10 @@ ActiveRecord::Schema.define(version: 20140903145320) do
 
   create_table "services", force: true do |t|
     t.string   "name"
-    t.integer  "task_left"
-    t.integer  "task_done"
-    t.integer  "task_total"
-    t.boolean  "ready"
+    t.integer  "task_left",  default: 0
+    t.integer  "task_done",  default: 0
+    t.integer  "task_total", default: 0
+    t.boolean  "ready",      default: false
     t.integer  "leader_id"
     t.integer  "office_id"
     t.datetime "created_at"
@@ -72,7 +72,7 @@ ActiveRecord::Schema.define(version: 20140903145320) do
   create_table "tasks", force: true do |t|
     t.string   "name"
     t.string   "due_date"
-    t.boolean  "completed"
+    t.boolean  "completed",  default: false
     t.integer  "service_id"
     t.datetime "created_at"
     t.datetime "updated_at"

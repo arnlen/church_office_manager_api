@@ -6,11 +6,10 @@ class Office < ActiveRecord::Base
 
 	has_many :services, dependent: :destroy
 
-
 	# Called by OfficeController
 	# Return the next n existing offices or create them if not exist
 	def self.next(amount)
-		missing_offices = amount - Office.where("date >= ?", Date.today).count
+		missing_offices = amount.to_i - Office.where("date >= ?", Date.today).count
 		create_next(missing_offices) if missing_offices > 0
 		Office.where("date >= ?", Date.today).limit(amount)
 	end
@@ -20,7 +19,10 @@ class Office < ActiveRecord::Base
 
 		# Create services
 		ServiceTemplate.all.each do |service_template|
-			new_service = Service.create(name: service_template.name, leader_id: service_template.leader_id, office_id: self.id)
+			new_service = Service.create!(
+				name: service_template.name,
+				leader_id: service_template.leader_id,
+				office_id: self.id)
 
 			# Create tasks
 			task_templates = TaskTemplate.where(service_id: service_template.id)
@@ -43,9 +45,15 @@ class Office < ActiveRecord::Base
 					monday.next_wday(7)
 				end
 
-				Task.create(name: task_template.name, due_date: task_template.due_date.to_datetime, service_id: new_service.id)
+				Task.create!(
+					name: task_template.name,
+					due_date: task_template.due_date.to_datetime,
+					service_id: new_service.id)
 
 			end # create tasks
+
+			task_total = new_service.tasks.count
+			new_service.update_attributes(task_left: task_total, task_total: task_total)
 
 		end # create services
 
@@ -66,13 +74,9 @@ class Office < ActiveRecord::Base
 				next_sunday = next_sunday.next_wday(7)
 			end
 
-			begin
-				for i in 0..missing_offices - 1
-					office = Office.create(date: next_sunday.advance({ weeks: i}))
-					office.create_services_and_tasks
-				end
-			rescue
-				raise ArgumentError, "No 'missing_offices' parameter specified"
+			for i in 0..missing_offices - 1
+				office = Office.create!(date: next_sunday.advance({ weeks: i}))
+				office.create_services_and_tasks
 			end
 
 		end

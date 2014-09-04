@@ -3,10 +3,10 @@ class CreateServices < ActiveRecord::Migration
 
     create_table :services do |t|
       t.string :name
-      t.integer :task_left
-      t.integer :task_done
-      t.integer :task_total
-      t.boolean :ready
+      t.integer :task_left, default: 0
+      t.integer :task_done, default: 0
+      t.integer :task_total, default: 0
+      t.boolean :ready, default: false
       t.integer :leader_id
       t.integer :office_id
 

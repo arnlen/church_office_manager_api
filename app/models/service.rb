@@ -9,10 +9,4 @@ class Service < ActiveRecord::Base
 
 	has_and_belongs_to_many :members
 
-
-	# Called by OfficController
-	def self.create_or_reset_office_services(office)
-
-	end
-
 end

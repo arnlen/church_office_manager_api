@@ -4,4 +4,8 @@ class Task < ActiveRecord::Base
 
 	belongs_to :service
 
+	before_save(on: :create) do
+		self.completed = false if self.completed.nil?
+	end
+
 end
