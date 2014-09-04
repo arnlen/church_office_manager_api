@@ -3,8 +3,8 @@ class OfficesController < ApplicationController
   before_action :authentication_required, only: [ :update, :destroy ]
 
   def next_office
-    office = Office.next
-    Service.create_or_reset_office_services(office) unless @office.services.count === ServiceTemplate.count
+    amount = params[:amount] || 1
+    office = Office.next(amount)
   end
 
   def index

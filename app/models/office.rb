@@ -8,15 +8,73 @@ class Office < ActiveRecord::Base
 
 
 	# Called by OfficeController
-	def self.next
-		Office.where("date >= ?", Date.today).first || Office.create_next
+	# Return the next n existing offices or create them if not exist
+	def self.next(amount)
+		missing_offices = amount - Office.where("date >= ?", Date.today).count
+		create_next(missing_offices) if missing_offices > 0
+		Office.where("date >= ?", Date.today).limit(amount)
 	end
 
-	def self.create_next
-		next_sunday = Date.today.extend(DateTimeMixin)
-		next_sunday = next_sunday.next_wday(7)
+	# Create services and tasks for the office
+	def create_services_and_tasks
 
-		Office.create(date: next_sunday)
+		# Create services
+		ServiceTemplate.all.each do |service_template|
+			new_service = Service.create(name: service_template.name, leader_id: service_template.leader_id, office_id: self.id)
+
+			# Create tasks
+			task_templates = TaskTemplate.where(service_id: service_template.id)
+			task_templates.each do |task_template|
+
+				# Determine the exact due_date depending of the office's date
+				office_date = self.date.to_date
+				monday = office_date.beginning_of_week.extend(DateTimeMixin)
+
+				task_template.due_date = case task_template.due_date
+				when "wednesday"
+					monday.next_wday(3)
+				when "thursday"
+					monday.next_wday(4)
+				when "friday"
+					monday.next_wday(5)
+				when "saturday"
+					monday.next_wday(6)
+				when "sunday"
+					monday.next_wday(7)
+				end
+
+				Task.create(name: task_template.name, due_date: task_template.due_date.to_datetime, service_id: new_service.id)
+
+			end # create tasks
+
+		end # create services
+
 	end
+
+
+	private
+
+		# Create n next offices
+		def self.create_next(missing_offices)
+
+			# Grab the last Office's date in database to continue from this date
+			# or start from today's date
+			if Office.count > 0
+				next_sunday = Office.last.date.advance({ weeks: 1})
+			else
+				next_sunday = Date.today.extend(DateTimeMixin)
+				next_sunday = next_sunday.next_wday(7)
+			end
+
+			begin
+				for i in 0..missing_offices - 1
+					office = Office.create(date: next_sunday.advance({ weeks: i}))
+					office.create_services_and_tasks
+				end
+			rescue
+				raise ArgumentError, "No 'missing_offices' parameter specified"
+			end
+
+		end
 
 end
