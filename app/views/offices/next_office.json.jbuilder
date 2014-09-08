@@ -1,7 +1,7 @@
 json.offices @offices do |office|
 
   json.id office.id
-  json.date office.date
+  json.date office.date.to_date
 
   json.services office.services do |service|
   	json.name service.name
@@ -12,8 +12,9 @@ json.offices @offices do |office|
 		json.ready service.ready
 
   	json.tasks service.tasks do |task|
+      json.id task.id
   		json.name task.name
-  		json.due_date task.due_date
+  		json.due_date task.due_date.to_date
   		json.completed task.completed
   	end
 
