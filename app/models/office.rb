@@ -53,7 +53,8 @@ class Office < ActiveRecord::Base
 			end # create tasks
 
 			task_total = new_service.tasks.count
-			new_service.update_attributes(task_left: task_total, task_total: task_total)
+			ready = task_total == 0
+			new_service.update_attributes(task_left: task_total, task_total: task_total, ready: ready)
 
 		end # create services
 
