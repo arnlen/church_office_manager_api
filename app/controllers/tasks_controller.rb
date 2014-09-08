@@ -5,7 +5,7 @@ class TasksController < ApplicationController
   def update
   	@task = Task.find(params[:id])
   	if @task.update_attributes(completed: params[:completed])
-  		@task.service.office.refresh
+  		@task.service.refresh_counters
   		head :ok
   	end
   end

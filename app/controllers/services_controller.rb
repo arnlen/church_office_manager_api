@@ -1,6 +1,9 @@
 class ServicesController < ApplicationController
 
-  before_action :authentication_required
+  def show
+  	@service = Service.find(params[:id])
+  	render json: @service
+  end
 
   private
 

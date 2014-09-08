@@ -4,6 +4,7 @@ json.offices @offices do |office|
   json.date office.date.to_date
 
   json.services office.services do |service|
+    json.id service.id
   	json.name service.name
     json.leader_name Member.find(service.leader_id).name
 		json.task_left service.task_left
