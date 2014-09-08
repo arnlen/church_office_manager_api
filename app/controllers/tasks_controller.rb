@@ -4,7 +4,10 @@ class TasksController < ApplicationController
 
   def update
   	@task = Task.find(params[:id])
-  	@task.update_attributes(params[:task])
+  	if @task.update_attributes(completed: params[:completed])
+  		@task.service.office.refresh
+  		head :ok
+  	end
   end
 
   private

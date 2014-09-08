@@ -60,6 +60,30 @@ class Office < ActiveRecord::Base
 
 	end
 
+	# Refresh office's services status: ready or not + task counters
+	def refresh
+		services = self.services
+
+		services.each do |my_service|
+			task_total = task_left = task_done = 0
+
+			tasks = my_service.tasks
+
+			tasks.each do |task|
+				task_total += 1
+				task_left += 1
+
+				if task.completed
+					task_left -= 1
+					task_done += 1
+				end
+			end
+
+			ready = task_total == task_done
+			my_service.update_attributes(task_done: task_done, task_left: task_left, task_total: task_total, ready: ready)
+		end
+	end
+
 
 	private
 

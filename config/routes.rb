@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
 
-	scope constraints: { format: 'json' } do
+	scope defaults: { format: 'json' } do
 
 	  resources :members, only: [ :index ]
 	  resources :tasks, only: [ :update ]
