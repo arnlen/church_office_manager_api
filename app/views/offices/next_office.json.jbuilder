@@ -7,7 +7,7 @@ json.offices @offices do |office|
     json.id service.id
   	json.name service.name
     json.leader_name Member.find(service.leader_id).name
-    json.member_in_charge_name Member.find(service.member_in_charge_id).name
+    json.member_in_charge_name ( service.member_in_charge_id && Member.find(service.member_in_charge_id).name ) || "A définir"
 		json.task_left service.task_left
 		json.task_done service.task_done
 		json.task_total service.task_total

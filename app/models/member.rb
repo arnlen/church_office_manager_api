@@ -21,4 +21,8 @@ class Member < ActiveRecord::Base
 		Service.where(leader_id: self.id).first
 	end
 
+	def in_charge_of
+		Service.where(member_in_charge_id: self.id)
+	end
+
 end
