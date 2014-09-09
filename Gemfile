@@ -22,3 +22,5 @@ gem 'spring',        group: :development
 
 # CORS handle
 gem 'rack-cors', :require => 'rack/cors'
+
+gem 'annotate'
