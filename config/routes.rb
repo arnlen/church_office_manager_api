@@ -2,7 +2,7 @@ Rails.application.routes.draw do
 
 	scope defaults: { format: 'json' } do
 
-	  resources :members, only: [ :index ]
+	  resources :members, only: [ :index, :show ]
 	  resources :tasks, only: [ :update ]
 	  resources :services, only: [ :show ]
 
