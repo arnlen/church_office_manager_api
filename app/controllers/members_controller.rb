@@ -1,9 +1,7 @@
 class MembersController < ApplicationController
 
-  before_action :authentication_required, only: [ :create, :update, :destroy ]
-
   def index
-    render json: Member.all
+    @members = Member.all
   end
 
   def show
