@@ -35,7 +35,7 @@ ActiveRecord::Schema.define(version: 20140903145320) do
   add_index "members_services", ["service_id"], name: "index_members_services_on_service_id"
 
   create_table "offices", force: true do |t|
-    t.datetime "date"
+    t.date     "date"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -72,7 +72,7 @@ ActiveRecord::Schema.define(version: 20140903145320) do
 
   create_table "tasks", force: true do |t|
     t.string   "name"
-    t.string   "due_date"
+    t.date     "due_date"
     t.boolean  "completed",  default: false
     t.integer  "service_id"
     t.datetime "created_at"
