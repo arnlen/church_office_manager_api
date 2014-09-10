@@ -2,7 +2,6 @@ class ServicesController < ApplicationController
 
   def show
   	@service = Service.find(params[:id])
-  	render json: @service
   end
 
   def update
