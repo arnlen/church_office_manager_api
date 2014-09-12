@@ -29,6 +29,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     chef.add_recipe "rbenv::vagrant"
     chef.add_recipe "vim"
     chef.add_recipe "oh_my_zsh"
+    chef.add_recipe "postgresql"
+    chef.add_recipe "postgresql::libpq"
+    chef.add_recipe "postgresql::server"
+    chef.add_recipe "postgresql::client"
 
     # Install Ruby 2.1.2 and Bundler
     chef.json = {
@@ -54,6 +58,15 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
           :login => 'vagrant',
           :theme => 'ys',
           :plugins => ['gem', 'git', 'rails', 'redis-cli', 'ruby']
+        }]
+      },
+      postgresql: {
+        users: [{
+          username: "vagrant",
+          password: "vagrant",
+          superuser: true,
+          createdb: false,
+          login: true
         }]
       }
     }

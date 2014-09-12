@@ -42,6 +42,14 @@ GIT
       yum-epel (>= 0.0.0)
 
 GIT
+  remote: https://github.com/phlipper/chef-postgresql
+  ref: master
+  sha: 4ed030dd3f6c770dd0f6a7a9bdc20f48ede448e0
+  specs:
+    postgresql (0.14.1)
+      apt (>= 1.9.0)
+
+GIT
   remote: https://github.com/shingara/oh-my-zsh-chef
   ref: master
   sha: 968928adab75902e25bcb71093e0d32b09240b0d
@@ -54,6 +62,7 @@ DEPENDENCIES
   build-essential (>= 0)
   nodejs (>= 0)
   oh_my_zsh (>= 0)
+  postgresql (>= 0)
   rbenv (>= 0)
   ruby_build (>= 0)
   vim (>= 0)

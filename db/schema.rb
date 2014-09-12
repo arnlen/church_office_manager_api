@@ -13,6 +13,9 @@
 
 ActiveRecord::Schema.define(version: 20140903145320) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "members", force: true do |t|
     t.string   "name"
     t.string   "email"
@@ -21,8 +24,8 @@ ActiveRecord::Schema.define(version: 20140903145320) do
     t.datetime "updated_at"
   end
 
-  add_index "members", ["email"], name: "index_members_on_email", unique: true
-  add_index "members", ["name"], name: "index_members_on_name", unique: true
+  add_index "members", ["email"], name: "index_members_on_email", unique: true, using: :btree
+  add_index "members", ["name"], name: "index_members_on_name", unique: true, using: :btree
 
   create_table "members_services", force: true do |t|
     t.integer  "service_id"
@@ -31,8 +34,8 @@ ActiveRecord::Schema.define(version: 20140903145320) do
     t.datetime "updated_at"
   end
 
-  add_index "members_services", ["member_id"], name: "index_members_services_on_member_id"
-  add_index "members_services", ["service_id"], name: "index_members_services_on_service_id"
+  add_index "members_services", ["member_id"], name: "index_members_services_on_member_id", using: :btree
+  add_index "members_services", ["service_id"], name: "index_members_services_on_service_id", using: :btree
 
   create_table "offices", force: true do |t|
     t.date     "date"
@@ -47,7 +50,7 @@ ActiveRecord::Schema.define(version: 20140903145320) do
     t.datetime "updated_at"
   end
 
-  add_index "service_templates", ["name"], name: "index_service_templates_on_name", unique: true
+  add_index "service_templates", ["name"], name: "index_service_templates_on_name", unique: true, using: :btree
 
   create_table "services", force: true do |t|
     t.string   "name"
