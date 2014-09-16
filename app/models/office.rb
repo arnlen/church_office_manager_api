@@ -17,11 +17,9 @@ class Office < ActiveRecord::Base
 	has_many :services, dependent: :destroy
 
 	# Called by OfficeController
-	# Return the next n existing offices or create them if not exist
-	def self.next(amount)
-		missing_offices = amount.to_i - Office.where("date >= ?", Date.today).count
-		create_next(missing_offices) if missing_offices > 0
-		Office.where("date >= ?", Date.today).limit(amount)
+	# Return the next existing office after the date passed in params or create it if not exist
+	def self.get_next(date)
+		next_office = Office.where("date > ?", date.to_date).first || create_next(date)
 	end
 
 	# Create services and tasks for the office
@@ -79,22 +77,16 @@ class Office < ActiveRecord::Base
 
 	private
 
-		# Create n next offices
-		def self.create_next(missing_offices)
+		# Create next office
+		def self.create_next(date)
 
-			# Grab the last Office's date in database to continue from this date
-			# or start from today's date
-			if Office.count > 0
-				next_sunday = Office.last.date.advance({ weeks: 1})
-			else
-				next_sunday = Date.today.extend(DateTimeMixin)
-				next_sunday = next_sunday.next_wday(7)
-			end
+			# Find the next sunday
+			next_sunday = date.extend(DateTimeMixin)
+			next_sunday = next_sunday.next_wday(7)
 
-			for i in 0..missing_offices - 1
-				office = Office.create!(date: next_sunday.advance({ weeks: i}))
-				office.create_services_and_tasks
-			end
+			# Create Office + its services and tasks
+			office = Office.create!(date: next_sunday)
+			office.create_services_and_tasks
 
 		end
 

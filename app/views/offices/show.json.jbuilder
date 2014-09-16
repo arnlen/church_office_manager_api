@@ -1,0 +1,1 @@
+json.(@office, :id, :date)
