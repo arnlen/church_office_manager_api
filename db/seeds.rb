@@ -13,26 +13,26 @@ require 'assets/date_time_mixin'
 # Create member
 
 Member.create([
-	{ name: "Jeff" },
-	{ name: "Mireille" },
-	{ name: "JD" },
-	{ name: "Wendy" },
+	{ name: "Jeff", email: "jeffmarianne.guidon@free.fr", phone: "06 80 83 30 46" },
+	{ name: "Mireille", email: "mireille1806@live.fr" },
+	{ name: "JD", email: "jdalex.picard@free.fr", phone: "07 71 00 67 40" },
+	{ name: "Wendy", email: "emguglielmi@gmail.com", phone: "06 34 71 18 41" },
 	{ name: "Alberte" },
-	{ name: "William" },
-	{ name: "Amandine" },
-	{ name: "Emmanuel" },
-	{ name: "Arnaud" },
-	{ name: "Franck" },
-	{ name: "Didier" },
+	{ name: "William", email: "william.burt@laposte.net", phone: "06 69 25 76 33" },
+	{ name: "Amandine", email: "amandina.guglielmi@gmail.com", phone: "06 51 91 54 60" },
+	{ name: "Emmanuel", email: "emguglielmi@gmail.com", phone: "06 08 98 83 32" },
+	{ name: "Arnaud", email: "arlenglet@gmail.com", phone: "06 72 48 27 41" },
+	{ name: "Franck", email: "sabourinfranck@hotmail.com", phone: "06 82 55 33 80" },
+	{ name: "Didier", email: "kovu78@hotmail.com", phone: "06 12 90 49 14" },
 	{ name: "Nathalie" },
 	{ name: "Sylvain" },
-	{ name: "Marianne" },
-	{ name: "Sharon" },
+	{ name: "Marianne", email: "jeffmarianne.guidon@free.fr", phone: "06 86 86 98 67" },
+	{ name: "Sharon", email: "sharon.guglielmi@free.fr", phone: "06 14 29 30 74" },
 	{ name: "Jenny" },
 	{ name: "Nico" },
 	{ name: "Cynthia" },
 	{ name: "Albert" },
-	{ name: "Alexia" }
+	{ name: "Alexia", email: "alexia.mateta@gmail.com", phone: "06 33 37 96 85" }
 ])
 
 # ------------------------------

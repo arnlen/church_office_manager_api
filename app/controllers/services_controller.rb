@@ -3,7 +3,7 @@ class ServicesController < ApplicationController
   def index
     office = Office.find(params[:officeId])
     if office
-      @services = office.services
+      @services = office.services.order(:name)
     end
   end
 
