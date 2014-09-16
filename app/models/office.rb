@@ -19,7 +19,11 @@ class Office < ActiveRecord::Base
 	# Called by OfficeController
 	# Return the next existing office after the date passed in params or create it if not exist
 	def self.get_next(date)
-		next_office = Office.where("date > ?", date.to_date).first || create_next(date)
+		next_office = Office.where("date > ?", date).first || create_next(date)
+	end
+
+	def self.get_previous(date)
+		previous_office = Office.where("date < ?", date).last
 	end
 
 	# Create services and tasks for the office
@@ -87,6 +91,8 @@ class Office < ActiveRecord::Base
 			# Create Office + its services and tasks
 			office = Office.create!(date: next_sunday)
 			office.create_services_and_tasks
+
+			office
 
 		end
 

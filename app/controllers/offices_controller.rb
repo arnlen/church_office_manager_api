@@ -10,12 +10,17 @@ class OfficesController < ApplicationController
   # => Grab the next office after the specified date by sending the keyword "next"
   # => Grab any office by giving its ID
   def show
+    date = params[:date] || Date.today
+
   	@office = if params[:id] === "next"
-  		date = params[:date] || Date.today
   		Office.get_next(date.to_date)
+    elsif params[:id] === "previous"
+      Office.get_previous(date.to_date)
   	else
   		Office.find(id)
   	end
+
+    render json: { error: "No previous office found" }, status: :not_found if !@office
   end
 
   private
