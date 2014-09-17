@@ -20,14 +20,16 @@ class MembersController < ApplicationController
         # Case 1: not member => become member
         if !is_member && !is_leader
           @member.services << @service
+          @message = "#{@member.name} est maintenant membre du service #{@service.name}."
 
         # Case 2: member => not a member
         elsif is_member && !is_leader
           @member.services.delete(@service)
+          @message = "#{@member.name} n'est plus membre du service #{@service.name}."
 
         # Case 3: leader => raise error
         elsif is_leader
-          render json: { error: "This member is leader of this service" },
+          render json: { message: "#{@member.name} est responsable du service #{@service.name} et ne peut donc pas le quitter." },
             status: :unprocessable_entity and return
         end
 
