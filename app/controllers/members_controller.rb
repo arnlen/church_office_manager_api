@@ -21,14 +21,14 @@ class MembersController < ApplicationController
         if !is_member && !is_leader
           @member.services << @service
 
-        # Case 2: member => become leader
+        # Case 2: member => not a member
         elsif is_member && !is_leader
-          @service.leader_id = @member.id
+          @member.services.delete(@service)
 
-        # Case 3: leader => not member
+        # Case 3: leader => raise error
         elsif is_leader
-          @service.leader_id = nil
-          @member.services.where(id: @service.id).first.destroy
+          render json: { error: "This member is leader of this service" },
+            status: :unprocessable_entity and return
         end
 
         if @member.save && @service.save

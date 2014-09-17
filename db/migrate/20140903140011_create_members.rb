@@ -10,7 +10,7 @@ class CreateMembers < ActiveRecord::Migration
     end
 
     add_index :members, :name, unique: true
-    add_index :members, :email, unique: true
+    add_index :members, :email
   end
 
 end
