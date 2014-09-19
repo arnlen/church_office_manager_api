@@ -9,6 +9,9 @@ class ServicesController < ApplicationController
 
   def show
   	@service = Service.find(params[:id])
+    @service.leader = Member.find(@service.leader_id) if @service.leader_id
+    @service.member_in_charge = Member.find(@service.member_in_charge_id) if @service.member_in_charge_id
+    @service.tasks = @service.tasks
   end
 
   def update

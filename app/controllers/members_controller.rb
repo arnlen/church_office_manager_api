@@ -1,7 +1,11 @@
 class MembersController < ApplicationController
 
   def index
-    @members = Member.order(:name)
+    if params[:serviceId] && @service = Service.find(params[:serviceId])
+      @members = @service.members.order(:name)
+    else
+      @members = Member.order(:name)
+    end
   end
 
   def show
@@ -9,7 +13,7 @@ class MembersController < ApplicationController
   end
 
   def update
-    if params[:serviceId]
+    if params[:id] && params[:serviceId]
       @member = Member.find(params[:id])
       @service = Service.find(params[:serviceId])
       is_member = params[:isMember] && params[:isMember] === "true"
