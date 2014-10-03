@@ -17,12 +17,4 @@ class Member < ActiveRecord::Base
 
 	has_and_belongs_to_many :services
 
-	def leader_of
-		Service.where(leader_id: self.id).first
-	end
-
-	def in_charge_of
-		Service.where(member_in_charge_id: self.id)
-	end
-
 end
