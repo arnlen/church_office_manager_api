@@ -16,10 +16,20 @@ class ServicesController < ApplicationController
 
   def update
   	@service = Service.find(params[:id])
-  	member_in_charge = Member.find(params[:member_in_charge_id])
 
-		if @service && member_in_charge
-			@service.update_attributes(member_in_charge_id: member_in_charge.id)
+    leader_id = if params[:leader_id].to_i != 0
+      params[:leader_id]
+    else
+      Member.first.id
+    end
+
+		if @service
+			@service.update_attributes(
+        leader_id: leader_id,
+        ready: params[:ready],
+        task_done: params[:task_done],
+        task_left: params[:task_left])
+
       render "show"
 		end
   end
