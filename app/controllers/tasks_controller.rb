@@ -6,6 +6,12 @@ class TasksController < ApplicationController
     end
   end
 
+  def show
+    if params[:id] && @task = Task.find(params[:id])
+      render json: @task
+    end
+  end
+
   def update
   	@task = Task.find(params[:id])
   	if @task.update_attributes(completed: params[:completed])
