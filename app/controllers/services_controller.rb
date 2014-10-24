@@ -28,9 +28,13 @@ class ServicesController < ApplicationController
         leader_id: leader_id,
         ready: params[:ready],
         task_done: params[:task_done],
-        task_left: params[:task_left])
+        task_left: params[:task_left],
+        member_in_charge_id: params[:member_in_charge_id]);
 
       render "show"
+    else
+      render json: { message: "Unable to update one or more user's attribute(s)" },
+        status: :unprocessable_entity and return
 		end
   end
 

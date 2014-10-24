@@ -43,7 +43,7 @@ class Service < ActiveRecord::Base
 		end
 
 		ready = task_total == task_done
-		self.update_attributes(task_done: task_done, task_left: task_left, task_total: task_total, ready: ready)
+		self.update_attributes(task_done: task_done, task_left: task_left, task_total: task_total, ready: ready, member_in_charge_id: member_in_charge_id)
 	end
 
 end
