@@ -20,7 +20,11 @@ class ServicesController < ApplicationController
     leader_id = if params[:leader_id].to_i != 0
       params[:leader_id]
     else
-      Member.first.id
+      if member = @service.members.first
+        member.id
+      else
+        Member.first.id
+      end
     end
 
 		if @service
